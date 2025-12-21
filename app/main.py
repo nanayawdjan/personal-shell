@@ -3,9 +3,13 @@ import time
 
 
 def main():
-    sys.stdout.write("$ ")
-    command = input()
-    sys.stdout.write(f"{command}: command not found")
+    
+    while True:
+        sys.stdout.write("$ ")
+
+        # Wait for user input
+        command = input()
+        sys.stdout.write(f"{command}: command not found\n")
 
 
 if __name__ == "__main__":
