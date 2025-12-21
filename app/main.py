@@ -4,12 +4,15 @@ import time
 
 def main():
     
-    while True:
-        sys.stdout.write("$ ")
+    sys.stdout.write("$ ")
 
-        # Wait for user input
-        command = input()
+    # Wait for user input
+    command = input()
+    if command == "exit":
+        sys.exit()
+    else:
         sys.stdout.write(f"{command}: command not found\n")
+    main()
 
 
 if __name__ == "__main__":
