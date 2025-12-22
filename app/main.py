@@ -23,7 +23,7 @@ def chadir(*args):
         try:
             os.chdir(args[0])
         except FileNotFoundError:
-            print(f"cd: {args[0]:} No such file or directory")
+            print(f"cd: {args[0]}: No such file or directory")
 
 commands = {
     "echo": lambda *args: print(' '.join(args)),
