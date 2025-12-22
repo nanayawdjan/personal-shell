@@ -20,7 +20,8 @@ def command_type(*args):
 commands = {
     "echo": lambda *args: print(' '.join(args)),
     "exit": lambda *args: sys.exit(),
-    "type": command_type
+    "type": command_type,
+    "pwd": lambda *args: print(os.getcwd())
 }
 
 
