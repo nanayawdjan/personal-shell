@@ -21,7 +21,10 @@ def chadir(*args):
         print("cd: missing pathname")
     else:
         try:
-            os.chdir(args[0])
+            if args[0] == '~':
+                os.chdir(os.path.expanduser("~"))
+            else:
+                os.chdir(args[0])
         except FileNotFoundError:
             print(f"cd: {args[0]}: No such file or directory")
 
