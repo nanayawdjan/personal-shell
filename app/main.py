@@ -16,12 +16,21 @@ def command_type(*args):
         else:
             print(f"{args[0]}: not found")
 
+def chadir(*args):
+    if not args:
+        print("cd: missing pathname")
+    else:
+        try:
+            os.chdir(args[0])
+        except FileNotFoundError:
+            print(f"cd: {args[0]:} No such file or directory")
 
 commands = {
     "echo": lambda *args: print(' '.join(args)),
     "exit": lambda *args: sys.exit(),
     "type": command_type,
-    "pwd": lambda *args: print(os.getcwd())
+    "pwd": lambda *args: print(os.getcwd()),
+    "cd": chadir
 }
 
 
