@@ -3,6 +3,7 @@ import sys
 import time
 import shutil
 import subprocess
+import shlex
 
 def command_type(*args):
     if not args:
@@ -14,13 +15,6 @@ def command_type(*args):
             print(f"{args[0]} is {shutil.which(args[0])}")
         else:
             print(f"{args[0]}: not found")
-
-def find_command(*args):
-    full_path = shutil.which(args[0])
-    if full_path:
-        subprocess.run([full_path])
-    else:
-        print(f"{args[0]}: command not found")
 
 
 commands = {
@@ -34,16 +28,24 @@ def main():
     
     while True:
         sys.stdout.write("$ ")
+        sys.stdout.flush()
 
         # Wait for user input
-        command_with_args = input().split()
+        command_with_args = shlex.split(input())
+
+        if not command_with_args:
+            continue
 
         command = command_with_args[0]
+        args = command_with_args[1:]
 
         if command not in commands:
-            find_command(command)
+            if shutil.which(command):
+                subprocess.run([command, *args])
+            else:
+                print(f"{command}: command not found")
         else:
-            commands[command](*command_with_args[1:])
+            commands[command](*args)
 
 
 if __name__ == "__main__":
