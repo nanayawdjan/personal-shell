@@ -70,7 +70,8 @@ def main():
             if shutil.which(command):
                 if stdout_target:
                     with open(stdout_target, "w")as f:
-                        subprocess.run([command, *args])
+                        subprocess.run([command, *args], stdout=f)
+                        f.write("\n")
                 else:
                     subprocess.run([command, *args])
             else:
