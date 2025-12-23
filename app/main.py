@@ -68,7 +68,11 @@ def main():
 
         if command not in commands:
             if shutil.which(command):
-                subprocess.run([command, *args])
+                if stdout_target:
+                    with open(stdout_target, "w")as f:
+                        subprocess.run([command, *args])
+                else:
+                    subprocess.run([command, *args])
             else:
                 print(f"{command}: command not found")
         else:
