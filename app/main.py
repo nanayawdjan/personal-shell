@@ -16,6 +16,7 @@ def command_type(*args):
         else:
             print(f"{args[0]}: not found")
 
+
 def chadir(*args):
     if not args:
         print("cd: missing pathname")
@@ -27,6 +28,7 @@ def chadir(*args):
                 os.chdir(args[0])
         except FileNotFoundError:
             print(f"cd: {args[0]}: No such file or directory")
+
 
 commands = {
     "echo": lambda *args: print(' '.join(args)),
@@ -46,8 +48,20 @@ def main():
         # Wait for user input
         command_with_args = shlex.split(input())
 
+        # Check wheather the command is not empty
         if not command_with_args:
             continue
+
+        stdout_target = None
+        operator_index = None
+        if ">" in command_with_args or "1>" in command_with_args:
+            if ">" in  command_with_args:
+                operator_index = command_with_args.index(">")
+            else:
+                operator_index = command_with_args.index("1>") 
+
+            stdout_target = command_with_args[operator_index + 1]    
+            command_with_args = command_with_args[:operator_index]
 
         command = command_with_args[0]
         args = command_with_args[1:]
@@ -58,7 +72,11 @@ def main():
             else:
                 print(f"{command}: command not found")
         else:
-            commands[command](*args)
+            if stdout_target:
+                with open(stdout_target, "w") as f:
+                    f.write(*args)
+            else:
+                commands[command](*args)
 
 
 if __name__ == "__main__":
