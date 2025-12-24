@@ -4,6 +4,7 @@ import time
 import shutil
 import subprocess
 import shlex
+from contextlib import redirect_stdout 
 
 def command_type(*args):
     if not args:
@@ -54,6 +55,7 @@ def main():
 
         stdout_target = None
         operator_index = None
+
         if ">" in command_with_args or "1>" in command_with_args:
             if ">" in  command_with_args:
                 operator_index = command_with_args.index(">")
@@ -69,17 +71,17 @@ def main():
         if command not in commands:
             if shutil.which(command):
                 if stdout_target:
-                    with open(stdout_target, "w")as f:
-                        subprocess.run([command, *args], stdout=f)
-                        f.write("\n")
+                    with open(stdout_target, "w") as file:
+                        subprocess.run([command, *args], stdout=file)
                 else:
                     subprocess.run([command, *args])
             else:
                 print(f"{command}: command not found")
         else:
             if stdout_target:
-                with open(stdout_target, "w") as f:
-                    f.write(*args)
+                with open(stdout_target, "w") as file:
+                    with redirect_stdout(file):
+                        command(*args)
             else:
                 commands[command](*args)
 
