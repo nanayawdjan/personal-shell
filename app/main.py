@@ -75,7 +75,10 @@ def main():
             if shutil.which(command):
                 if stdout_target:
                     with open(stdout_target, "w") as file:
-                        subprocess.run([command, *args], stdout=file, stderr=file)
+                        if "2>" in command_with_args:
+                            subprocess.run([command, *args], stderr=file)
+                        else:
+                            subprocess.run([command, *args], stdout=file)
                 else:
                     subprocess.run([command, *args])
             else:
