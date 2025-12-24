@@ -81,7 +81,7 @@ def main():
             if stdout_target:
                 with open(stdout_target, "w") as file:
                     with redirect_stdout(file):
-                        command(*args)
+                        commands[command](*args)
             else:
                 commands[command](*args)
 
