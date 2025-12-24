@@ -66,7 +66,6 @@ def main():
 
             stdout_target = command_with_args[operator_index + 1]    
             command_with_args = command_with_args[:operator_index]
-        # elif "2>" in command_with_args:
 
 
         command = command_with_args[0]
