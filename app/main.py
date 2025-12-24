@@ -59,8 +59,10 @@ def main():
         if ">" in command_with_args or "1>" in command_with_args or "2>" in command_with_args:
             if ">" in  command_with_args:
                 operator_index = command_with_args.index(">")
-            else:
-                operator_index = command_with_args.index("1>") 
+            elif "1>" in command_with_args:
+                operator_index = command_with_args.index("1>")
+            elif "2>" in command_with_args:
+                operator_index = command_with_args.index("2>")
 
             stdout_target = command_with_args[operator_index + 1]    
             command_with_args = command_with_args[:operator_index]
