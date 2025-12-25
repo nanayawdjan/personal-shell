@@ -66,6 +66,8 @@ def main():
             operator_index = command_with_args.index("2>")
         elif ">>" in command_with_args:
             operator_index = command_with_args.index(">>")
+        elif "1>>" in command_with_args:
+            operator_index = command_with_args.index(">>")
         
         command = command_with_args[0]
         args = command_with_args[1:]
