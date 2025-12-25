@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import os
 import sys
 import time
@@ -55,41 +56,46 @@ def main():
 
         stdout_target = None
         operator_index = None
+        redirection_type = 'stdout'
 
-        if ">" in command_with_args or "1>" in command_with_args or "2>" in command_with_args:
-            if ">" in  command_with_args:
-                operator_index = command_with_args.index(">")
-            elif "1>" in command_with_args:
-                operator_index = command_with_args.index("1>")
-            elif "2>" in command_with_args:
-                operator_index = command_with_args.index("2>")
-
-            stdout_target = command_with_args[operator_index + 1]    
-            command_with_args = command_with_args[:operator_index]
-
-
+        if ">" in  command_with_args:
+            operator_index = command_with_args.index(">")
+        elif "1>" in command_with_args:
+            operator_index = command_with_args.index("1>")
+        elif "2>" in command_with_args:
+            operator_index = command_with_args.index("2>")
+            redirection_type = 'stderr'
+        
         command = command_with_args[0]
         args = command_with_args[1:]
 
-        if command not in commands:
-            if shutil.which(command):
-                if stdout_target:
+        if operator_index is not None:
+            stdout_target = command_with_args[operator_index + 1]    
+            command_with_args = command_with_args[:operator_index]
+
+            if command not in commands:
+                if shutil.which(command):
                     with open(stdout_target, "w") as file:
-                        if "2>" in command_with_args:
+                        if redirection_type == 'stderr':
                             subprocess.run([command, *args], stderr=file)
                         else:
                             subprocess.run([command, *args], stdout=file)
                 else:
-                    subprocess.run([command, *args])
+                    print(f"{command}: command not found")
             else:
-                print(f"{command}: command not found")
+                if stdout_target:
+                    with open(stdout_target, "w") as file:
+                        with redirect_stdout(file):
+                            commands[command](*args)
         else:
-            if stdout_target:
-                with open(stdout_target, "w") as file:
-                    with redirect_stdout(file):
-                        commands[command](*args)
+            if command not in commands:
+                if shutil.which(command):
+                    subprocess.run([command, *args])
+                else:
+                    print(f"{command}: command not found")
             else:
                 commands[command](*args)
+
 
 
 if __name__ == "__main__":
