@@ -89,8 +89,8 @@ def main():
         else:
             if command not in commands:
                 if shutil.which(command):
-                    # subprocess.run([command, *args])
-                    os.system(f"{command} {' '.join(args)}")
+                    subprocess.run([command, *args])
+                    # os.system(f"{command} {' '.join(args)}")
                 else:
                     print(f"{command}: command not found")
             else:
