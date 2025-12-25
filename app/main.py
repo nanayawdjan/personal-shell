@@ -44,8 +44,9 @@ commands = {
 def main():
     
     while True:
+        sys.stdin.flush()
         sys.stdout.write("$ ")
-        sys.stdout.flush()
+        
 
         # Wait for user input
         command_with_args = shlex.split(input())
@@ -77,7 +78,8 @@ def main():
                 if shutil.which(command):
                     with open(stdout_target, "w") as file:
                         if redirection_type == 'stderr':
-                            subprocess.run([command, *args], stderr=file)
+                            # subprocess.run([command, *args], stderr=file)
+                            os.system(f"{command} {' '.join(args)}")
                         else:
                             subprocess.run([command, *args], stdout=file)
                 else:

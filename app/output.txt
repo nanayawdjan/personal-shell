@@ -1,2 +1,0 @@
-This text is redirected to the file.
-So is this line.
