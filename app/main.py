@@ -64,7 +64,8 @@ def main():
             operator_index = command_with_args.index("1>")
         elif "2>" in command_with_args:
             operator_index = command_with_args.index("2>")
-            redirection_type = 'stderr'
+        elif ">>" in command_with_args:
+            operator_index = command_with_args.index(">>")
         
         command = command_with_args[0]
         args = command_with_args[1:]
