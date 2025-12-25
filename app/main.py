@@ -88,7 +88,7 @@ def main():
                 if stdout_target:
                     with open(stdout_target, "w") as file:
                         with redirect_stdout(file):
-                            commands[command](*args)
+                            os.system(f"{command} {' '.join(args)}")
         else:
             if command not in commands:
                 if shutil.which(command):
