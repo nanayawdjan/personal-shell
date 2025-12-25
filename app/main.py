@@ -77,11 +77,12 @@ def main():
             if command not in commands:
                 if shutil.which(command):
                     with open(stdout_target, "w") as file:
-                        if redirection_type == 'stderr':
-                            # subprocess.run([command, *args], stderr=file)
-                            os.system(f"{command} {' '.join(args)}")
-                        else:
-                            subprocess.run([command, *args], stdout=file)
+                        # if redirection_type == 'stderr':
+                        #     # subprocess.run([command, *args], stderr=file)
+                        #     os.system(f"{command} {' '.join(args)}")
+                        # else:
+                        #     subprocess.run([command, *args], stdout=file)
+                        os.system(f"{command} {' '.join(args)}")
                 else:
                     print(f"{command}: command not found")
             else:
