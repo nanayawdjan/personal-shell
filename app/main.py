@@ -57,7 +57,6 @@ def main():
 
         stdout_target = None
         operator_index = None
-        redirection_type = 'stdout'
 
         if ">" in  command_with_args:
             operator_index = command_with_args.index(">")
@@ -72,16 +71,10 @@ def main():
 
         if operator_index is not None:
             stdout_target = command_with_args[operator_index + 1]    
-            command_with_args = command_with_args[:operator_index]
 
             if command not in commands:
                 if shutil.which(command):
                     with open(stdout_target, "w") as file:
-                        # if redirection_type == 'stderr':
-                        #     # subprocess.run([command, *args], stderr=file)
-                        #     os.system(f"{command} {' '.join(args)}")
-                        # else:
-                        #     subprocess.run([command, *args], stdout=file)
                         os.system(f"{command} {' '.join(args)}")
                 else:
                     print(f"{command}: command not found")
