@@ -58,16 +58,12 @@ def main():
         stdout_target = None
         operator_index = None
 
-        if ">" in  command_with_args:
-            operator_index = command_with_args.index(">")
-        elif "1>" in command_with_args:
-            operator_index = command_with_args.index("1>")
-        elif "2>" in command_with_args:
-            operator_index = command_with_args.index("2>")
-        elif ">>" in command_with_args:
-            operator_index = command_with_args.index(">>")
-        elif "1>>" in command_with_args:
-            operator_index = command_with_args.index("1>>")
+        redirection_operators = ['1>', '>', '2>', '1>>', '>>', '2>>']
+
+        for operator in redirection_operators:
+            if operator in command_with_args:
+                operator_index = command_with_args.index(operator)
+                break
         
         command = command_with_args[0]
         args = command_with_args[1:]
