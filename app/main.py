@@ -50,6 +50,14 @@ def auto_complete(text, state):
         if command.startswith(text):
             matches.append(command + ' ')
 
+    for path in os.environ["PATH"].split(os.pathsep):
+        if os.path.isdir(path):
+            for file in os.listdir(path):
+                if file.startswith(text) and os.access(
+                    os.path.join(path, file), os.X_OK
+                ):
+                    matches.append(file + " ")
+
     if state < len(matches):
         return matches[state]
     else:
