@@ -1,10 +1,24 @@
-import shlex
-import os
-text = 'ls -1 nonexistent 2> /tmp/bee/ant.md'
-new_text = shlex.split(text)
-if "2>" in new_text:
-    operator_index = new_text.index("2>")
-args = new_text[1:]
-print(f"Arguments: {args}")
-print(f"To use command with args: {new_text[:operator_index]}")
-os.system(text)
+try:
+    import readline
+except ImportError:
+    import pyreadline3 as readline
+
+built_in = ['help', 'history', 'exit', 'help']
+
+def auto_complete(text, state):
+    matches = []
+    for command in built_in:
+        if command.startswith(text):
+            matches.append(command+" ")
+    if state < len(matches):
+        return matches[state]
+    else:
+        None
+    return matches[state] if state < len(matches) else None
+
+readline.set_completer(auto_complete)
+readline.parse_and_bind("tab: complete")
+
+while True:
+    command = input("$ ")
+    print(f"You typed: {command}")

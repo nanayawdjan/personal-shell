@@ -6,6 +6,10 @@ import shutil
 import subprocess
 import shlex
 from contextlib import redirect_stdout 
+try:
+    import readline
+except ImportError:
+    import pyreadline3 as readline
 
 def command_type(*args):
     if not args:
@@ -40,8 +44,22 @@ commands = {
     "cd": chadir
 }
 
+def auto_complete(text, state):
+    matches = []
+    for command in commands:
+        if command.startswith(text):
+            matches.append(command + ' ')
+
+    if state < len(matches):
+        return matches[state]
+    else:
+        return None
+
 
 def main():
+
+    readline.set_completer(auto_complete)
+    readline.parse_and_bind("tab: complete")
     
     while True:
         sys.stdin.flush()
