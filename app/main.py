@@ -45,18 +45,19 @@ commands = {
 }
 
 def auto_complete(text, state):
+    """Autocomplete function for readline."""
     matches = []
     for command in commands:
         if command.startswith(text):
-            matches.append(command + ' ')
+            matches.append(command)
 
-    for path in os.environ["PATH"].split(os.pathsep):
+    for path in os.environ.get("PATH", "").split(os.pathsep):
         if os.path.isdir(path):
             for file in os.listdir(path):
                 if file.startswith(text) and os.access(
                     os.path.join(path, file), os.X_OK
                 ):
-                    matches.append(file + " ")
+                    matches.append(file)
 
     if state < len(matches):
         return matches[state]
@@ -75,7 +76,10 @@ def main():
         
 
         # Wait for user input
-        command_with_args = shlex.split(input())
+        try:
+            command_with_args = shlex.split(input())
+        except ValueError:
+            continue
 
         # Check wheather the command is not empty
         if not command_with_args:
