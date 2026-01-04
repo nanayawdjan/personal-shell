@@ -72,12 +72,12 @@ def main():
     
     while True:
         sys.stdin.flush()
-        sys.stdout.write("$ ")
+        # sys.stdout.write("$ ")
         
 
         # Wait for user input
         try:
-            command_with_args = shlex.split(input())
+            command_with_args = shlex.split(input("$ "))
         except ValueError:
             continue
 
