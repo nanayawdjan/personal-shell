@@ -48,7 +48,7 @@ def auto_complete(text, state):
     matches = []
     for command in commands:
         if command.startswith(text):
-            matches.append(command)
+            matches.append(command + " ")
 
     for path in os.environ.get("PATH", "").split(os.pathsep):
         if os.path.isdir(path):
