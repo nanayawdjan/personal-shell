@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 import os
 import sys
-import time
 import shutil
 import subprocess
 import shlex
@@ -23,7 +22,7 @@ def command_type(*args):
             print(f"{args[0]}: not found")
 
 
-def chadir(*args):
+def change_directory(*args):
     if not args:
         print("cd: missing pathname")
     else:
@@ -41,7 +40,7 @@ commands = {
     "exit": lambda *args: sys.exit(),
     "type": command_type,
     "pwd": lambda *args: print(os.getcwd()),
-    "cd": chadir
+    "cd": change_directory,
 }
 
 def auto_complete(text, state):
@@ -54,13 +53,11 @@ def auto_complete(text, state):
     for path in os.environ.get("PATH", "").split(os.pathsep):
         if os.path.isdir(path):
             for file in os.listdir(path):
-                if file.startswith(text) and os.access(
-                    os.path.join(path, file), os.X_OK
-                ):
+                if file.startswith(text) and os.access(os.path.join(path, file), os.X_OK):
                     matches.append(file)
 
     if state < len(matches):
-        return matches[state]
+        return matches[state] + ' '
     else:
         return None
 
@@ -72,7 +69,6 @@ def main():
     
     while True:
         sys.stdin.flush()
-        # sys.stdout.write("$ ")
         
 
         # Wait for user input
