@@ -46,6 +46,10 @@ commands = {
 def auto_complete(text, state):
     """Autocomplete function for readline."""
     matches = []
+
+    buffer = readline.get_line_buffer()
+    is_first_word = " " not in buffer.strip()
+
     for command in commands:
         if command.startswith(text):
             matches.append(command + " ")
@@ -56,7 +60,7 @@ def auto_complete(text, state):
                 if file.startswith(text) and os.access(os.path.join(path, file), os.X_OK):
                     matches.append(file)
 
-    if len(matches) == 1:
+    if len(matches) == 1 and is_first_word:
         matches[0] += " "
 
     if state < len(matches):
