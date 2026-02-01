@@ -60,7 +60,7 @@ def auto_complete(text, state):
 
     if state < len(matches):
         result = matches[state]
-        if len(matches) == 1 and not result.endswith(" "):
+        if len(matches) == 1 and not result.endswith("  "):
             result += " "
         return result
     return None
