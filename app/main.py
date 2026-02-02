@@ -56,11 +56,11 @@ def auto_complete(text, state):
             for file in os.listdir(path):
                 if file.startswith(text) and os.access(os.path.join(path, file), os.X_OK):
                     matches.append(file)
-
+    print(f"DEBUG: {matches}", file=sys.stderr)
 
     if state < len(matches):
         result = matches[state]
-        if len(matches) == 1 and not result.endswith("  "):
+        if len(matches) == 1:
             result += " "
         return result
     return None
